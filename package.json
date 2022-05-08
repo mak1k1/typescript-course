@@ -18,6 +18,11 @@
   },
   "homepage": "https://github.com/mak1k1/typescript-course#readme",
   "dependencies": {
-    "axios": "^0.27.2"
+    "@types/faker": "^5.5.9",
+    "axios": "^0.27.2",
+    "faker": "^5.5.3"
+  },
+  "devDependencies": {
+    "typescript": "^4.6.4"
   }
 }
