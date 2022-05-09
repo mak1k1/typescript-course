@@ -12,6 +12,11 @@ linkedList.add(-3)
 linkedList.add(4)
 
 
-const sorter = new Sorter(linkedList)
-sorter.sort()
+numbersCollection.sort()
+console.log(numbersCollection.data)
+
+charactersCollection.sort()
+console.log(charactersCollection.data)
+
+linkedList.sort()
 linkedList.print()
