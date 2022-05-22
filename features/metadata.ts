@@ -1,10 +1,26 @@
+import { Router } from 'express'
 import 'reflect-metadata'
 
-const plane = {
-	color: 'red'
+@controller
+class Plane {
+  color: string = 'red'
+
+  @get('/login')
+  fly(): void {
+    console.log('vrrrrrrr')
+  }
 }
 
-Reflect.defineMetadata('note', 'hi there', plane, 'color')
+function get(path: string) {
+  return function (target: Plane, key: string) {
+    Reflect.defineMetadata('path', path, target, key)
+  }
+}
 
-const note = Reflect.getMetadata('note', plane, 'color')
-console.log(note)
+function controller(target: typeof Plane) {
+  for (let key in target.prototype) {
+    const path = Reflect.getMetadata('path', target.prototype, key)
+    const middleware = Reflect.getMetadata('middleware', target.prototype, key)
+		// router.get(path, target.prototype[key])
+  }
+}
