@@ -10,56 +10,50 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const decorators_1 = require("./decorators");
-let LoginController = class LoginController {
-    add(a, b) {
-        return a + b;
+function requireAuth(req, res, next) {
+    if (req.session && req.session.loggedIn) {
+        next();
+        return;
     }
-    getLogin(req, res) {
-        res.send(`
-			<form method="POST">
-				<div>
-					<label>Email</label>
-					<input name="email" />
-				</div>
-				<div>
-					<label>Password</label>
-					<input name="password" type="password" />
-				</div>
-				<button>Submit</button>
-			</form>
+    res.status(403);
+    res.send('Forbidden access');
+}
+let RootController = class RootController {
+    getRoot(req, res) {
+        if (req.session && req.session.loggedIn) {
+            res.send(`
+			<div>
+				<div>You are logged in</div>
+				<a href="/logout">Logout</a>
+			</div>
 			`);
-    }
-    postLogin(req, res) {
-        const { email, password } = req.body;
-        if (email &&
-            password &&
-            email === 'hehe@hehe.he' &&
-            password === 'password') {
-            req.session = { loggedIn: true };
-            res.redirect('/');
         }
         else {
-            res.send('Invalid email or password');
+            res.send(`
+			<div>
+				<div>You are not logged in</div>
+				<a href="/login">Login</a>
+			</div>
+			`);
         }
     }
-    getLogout(req, res) {
-        req.session = undefined;
-        res.redirect('/');
+    getProtected(req, res) {
+        res.send('Welcome to protected route');
     }
 };
 __decorate([
-    (0, decorators_1.get)('/login'),
+    (0, decorators_1.get)('/'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", void 0)
-], LoginController.prototype, "getLogin", null);
+], RootController.prototype, "getRoot", null);
 __decorate([
-    (0, decorators_1.post)('/login'),
-    (0, decorators_1.bodyValidator)('email', 'password'),
+    (0, decorators_1.get)('/protected'),
+    (0, decorators_1.use)(requireAuth),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", void 0)
-], LoginController.prototype, "postLogin", null);
-LoginController = __decorate([
-    (0, decorators_1.controller)('/auth')
-], LoginController);
+], RootController.prototype, "getProtected", null);
+RootController = __decorate([
+    (0, decorators_1.controller)('')
+], RootController);

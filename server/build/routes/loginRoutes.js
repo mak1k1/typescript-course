@@ -12,28 +12,3 @@ function requireAuth(req, res, next) {
 }
 const router = (0, express_1.Router)();
 exports.router = router;
-router.get('/', (req, res) => {
-    if (req.session && req.session.loggedIn) {
-        res.send(`
-		<div>
-			<div>You are logged in</div>
-			<a href="/logout">Logout</a>
-		</div>
-		`);
-    }
-    else {
-        res.send(`
-		<div>
-			<div>You are not logged in</div>
-			<a href="/login">Login</a>
-		</div>
-		`);
-    }
-});
-router.get('/logout', (req, res) => {
-    req.session = undefined;
-    res.redirect('/');
-});
-router.get('/protected', requireAuth, (req, res) => {
-    res.send('Welcome to protected route');
-});
