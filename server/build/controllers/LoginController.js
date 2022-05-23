@@ -11,9 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const decorators_1 = require("./decorators");
 let LoginController = class LoginController {
-    add(a, b) {
-        return a + b;
-    }
     getLogin(req, res) {
         res.send(`
 			<form method="POST">
